@@ -26,8 +26,23 @@ const Userschema = new mongoose.Schema({
   role:{
     type: Number,
     required: true,
+    default: 0,
+  },
+  gender:{
+    type: Number,
+    required: true,
     default: 1,
-  }
+  }, 
+  certification:{
+    type: String,
+    required: false,
+    default: "",
+  },
+  specialization:{
+    type: String,
+    required: false,
+    default: "",
+  },
 });
 
 const User = new mongoose.model("User", Userschema);

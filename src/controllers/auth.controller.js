@@ -1,39 +1,70 @@
-const USER_ROLES = require("../../config/roles.js"); 
+const {USER_ROLES,GENDER } = require("../../config/roles.js"); 
 const User = require("../model/user.model.js");
 const createToken = require("../../config/jwt.js"); 
 const bcrypt = require('bcrypt');
+const { hash, compare } = require("../../utilities/hashing.js");
 
 const registerUser = async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
-        if (!(name||email||password) ) {
-            return res.status(400).json({
-            success: false,
-            msg: "INVALID CREDENTIALS",
-            });
-        }
-        const role = USER_ROLES.USER;
- 
-        const hashedPassword = await bcrypt.hash(password, 10); 
+    console.log(req.body)
+    const { name, certification, specialization, email, password, gender, role } = req.body;
 
-        const user = await User.create({ displayName:name, email, password:hashedPassword, role });
-        const token =createToken(user._id);
-        
-        // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        res.status(201).json({
-        success: true,
-        id: user._id,name,email,role, token
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-        success: false,
-        msg: "Something went wrong",
-        });
-    }
-    }
+// Check if the role is valid.
+// if (![USER_ROLES.UNVERFIED_USER, USER_ROLES.UNVERFIED_EXPERT].includes(role)) {
+//   return res.status(400).json({
+//     success: false,
+//     msg: "INVALID CREDENTIALS - This role does not support for registration",
+//   });
+// }
+
+// Check if the required fields are present.
+if (role === USER_ROLES.UNVERFIED_EXPERT && !( certification && specialization  )) {
+  return res.status(400).json({
+    success: false,
+    msg: "An Expert must provide all the details for verification",
+  });
+}
+
+if (!(name && email && password && gender)) {
+  return res.status(400).json({
+    success: false,
+    msg: "INVALID CREDENTIALS",
+  });
+}
+
+const gen = GENDER[gender];
+// Hash the password.
+const hashedPassword = await hash(password);
+
+// Create a new user.
+const user = await User.create({
+  displayName: name,
+  email,
+  password: hashedPassword,
+  role,
+  gender:gen,
+  certification,
+  specialization,
+});
+
+// Create a JWT token.
+const token = createToken(user._id);
+
+// Respond with the user data and the JWT token.
+res.status(201).json({
+  success: true,
+  id: user._id,
+  name,
+  email,
+  role,
+  token,
+  certification,
+  specialization,
+});
+
+}
     
 const loginUser = async (req, res) => {
+    console.log(req.body)
     try {
         const { email, password } = req.body;
         if (!(email || password)) {
@@ -46,14 +77,15 @@ const loginUser = async (req, res) => {
         if (!user) {
             return res.status(400).json({
             success: false,
-            msg: "INVALID CREDENTIALS",
+            msg: "INVALID USER CREDENTIALS",
             });
         }
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = compare(password, user.password);
+        console.log(isMatch)
         if (!isMatch) {
             return res.status(400).json({
             success: false,
-            msg: "INVALID CREDENTIALS",
+            msg: "INVALID PASSWORD CREDENTIALS",
             });
         }
         const token =createToken(user._id);
@@ -211,5 +243,21 @@ const adminUser = async (req, res) => {
     }
 
 
+    const verifyUser = async (req, res) => {
+        const { id } = req.body;
+        try {
+          const user = await User.findById(id);
+         
+          res.status(200).json({
+            success: true,
+            user
+          });
+        } catch (err) {
+          console.log(err);
+          res.status(500).json({
+            success: false,
+            msg: "Something went wrong",
+          });
+        }}
 
-module.exports = {registerUser,loginUser,allUsers, getUserById,updateUser,deleteUser,banUser,unbanUser,maintainUser,adminUser};
+module.exports = {registerUser,loginUser,allUsers, getUserById,updateUser,deleteUser,banUser,unbanUser,maintainUser,adminUser,verifyUser};

@@ -1,15 +1,15 @@
 const Post = require('../model/post.model.js');
 
 const createPost = async (req, res) => {
-    const { user_id, post_id, content } = req.body;
-    if (!(user_id || post_id || content)) {
+    const { user_id,  content , category} = req.body;
+    if (!(user_id || content)) {
         return res.status(400).json({
         success: false,
         msg: "INVALID CREDENTIALS",
         });
     }
     try {
-        const post = await Post.create(user_id, post_id, content);
+        const post = await Post.create({ user_id, content ,category});
         res.status(200).json({
         success: true,
         post,
@@ -57,14 +57,14 @@ const getPostById = async (req, res) => {
 
 const updatePost = async (req, res) => {
     try {
-        const { user_id, post_id, content } = req.body;
+        const { user_id, post_id, content ,category} = req.body;
         if (!(user_id || post_id || content)) {
             return res.status(400).json({
             success: false,
             msg: "INVALID CREDENTIALS",
             });
         }
-        const post = await Post.findByIdAndUpdate(req.params.id, { user_id, post_id, content });
+        const post = await Post.findByIdAndUpdate(req.params.id, { user_id, post_id, content ,category});
         res.status(200).json({
         success: true,
         post,
