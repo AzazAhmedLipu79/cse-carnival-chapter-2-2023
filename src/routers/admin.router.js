@@ -3,15 +3,15 @@ const { registerExpert, updateUserRole} = require("../controllers/admin.controll
  
   
  
-const expertRouter = express.Router(); 
+const adminUser = express.Router(); 
 
 
-expertRouter.route('/').get((req,res)=>{
+adminUser.route('/').get((req,res)=>{
   res.json({success:true, message: 'Welcome Admin'})}); 
 
  
- expertRouter.route('/Update').put(updateUserRole);
+  adminUser.route('/Update').put(updateUserRole);
  
 
  
-module.exports = expertRouter;
+module.exports = adminUser;

@@ -32,6 +32,8 @@ app.use('/auth',require('./src/routers/auth.router.js'));
 app.use('/posts',require('./src/routers/posts.router.js'));
 app.use('/expert',require('./src/routers/expert.router.js'));
 app.use('/admin', require('./middleware/isAdmin.js'),require('./src/routers/admin.router.js'));
+app.use('/comment',require('./src/routers/comment.router.js'));
+app.use('/direct',require('./src/routers/direct_connection.router.js'));
 // Error handling middleware
 app.use(error_handler);
 

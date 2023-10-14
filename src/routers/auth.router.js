@@ -11,8 +11,8 @@ userRouter.route('/DELETE/:id').delete(deleteUser).get(getUserById).put(updateUs
 userRouter.route('/BAN/:id').put(banUser);
 userRouter.route('/UNBAN/:id').put(unbanUser);
 userRouter.route('/MAINTAIN/:id').put(maintainUser);
-userRouter.route('/ADMIN/:id').put(adminUser);
-userRouter.route('/Verify').get(verifyUser);
+// userRouter.route('/ADMIN/:id').put(adminUser);
+userRouter.route('/verify').post(verifyUser);
 // userRouter.route('/:id').get(verifyToke);
  
 module.exports = userRouter;

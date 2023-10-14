@@ -2,7 +2,7 @@ const {USER_ROLES,GENDER } = require("../../config/roles.js");
 const User = require("../model/user.model.js");
 const createToken = require("../../config/jwt.js"); 
 const bcrypt = require('bcrypt');
-const { hash, compare } = require("../../utilities/hashing.js");
+// const { hash, compare } = require("../../utilities/hashing.js");
 
 const registerUser = async (req, res) => {
     console.log(req.body)
@@ -33,7 +33,7 @@ if (!(name && email && password && gender)) {
 
 const gen = GENDER[gender];
 // Hash the password.
-const hashedPassword = await hash(password);
+const hashedPassword = password;
 
 // Create a new user.
 const user = await User.create({
@@ -80,7 +80,7 @@ const loginUser = async (req, res) => {
             msg: "INVALID USER CREDENTIALS",
             });
         }
-        const isMatch = compare(password, user.password);
+        const isMatch = password==user.password;
         console.log(isMatch)
         if (!isMatch) {
             return res.status(400).json({
