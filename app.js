@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 }); 
  
 app.use('/auth',require('./src/routers/auth.router.js'));
-
+app.use('/posts',require('./src/routers/posts.router.js'));
 // Error handling middleware
 app.use(error_handler);
 
