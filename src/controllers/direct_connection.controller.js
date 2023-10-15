@@ -3,14 +3,15 @@ const User = require("../model/user.model.js");
 
 const sendRequest = async (req, res) => {
     try {
-        const { sender_id, receiver_id, content } = req.body;
-        if (!(sender_id || receiver_id || content)) {
+        const { sender_id, reciever_id, content } = req.body;
+        console.log(req.body)
+        if (!(sender_id || reciever_id || content)) {
             return res.status(400).json({
             success: false,
             msg: "INVALID CREDENTIALS",
             });
         }
-        const request = await DC.create({ sender_id, receiver_id, content });
+        const request = await DC.create({ sender_id, reciever_id, content });
         res.status(200).json({
         success: true,
         request,
