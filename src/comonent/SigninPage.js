@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "../styles/contact.css";
@@ -13,6 +13,7 @@ const SigninPage = () => {
   const [password, setPass] = useState("");
   const [conpas, setconpas] = useState("");
   const [medicalType, setmedicalType] = useState("");
+  const [success, setSuccess] = useState();
   const medicalSpecialties = [
     " practitioner",
     "Neurologist",
@@ -43,7 +44,7 @@ const SigninPage = () => {
   const x = useRef();
   const requestAPI = async () => {
     try {
-      const res = await axios.post(`http://192.168.174.43:9999/auth/REGISTER`, {
+      const res = await axios.post(`http://192.168.1.112:9999/auth/REGISTER`, {
         name,
         email,
         gender,
@@ -53,13 +54,15 @@ const SigninPage = () => {
       });
       console.log(res.data.token);
       Cookies.set("dammn_token", res.data.token, { expires: 7 });
-      console.log(res);
+      localStorage.setItem("userid", res.data.id);
+      setSuccess(res.data.success);
     } catch (err) {
       console.log(err);
     }
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSuccess(true);
     requestAPI();
 
     document.querySelector(".notification").classList.add("sub");
@@ -71,6 +74,8 @@ const SigninPage = () => {
       document.querySelector(".notification").classList.remove("sub");
     }, 5000);
   };
+  useEffect(() => {}, [success]);
+
   return (
     <div
       className="contact"
@@ -154,8 +159,8 @@ const SigninPage = () => {
             <span className="pl-2 text-white font-thin  ">Category</span>
 
             <select
-              name="gender"
-              id="gender"
+              name="category"
+              id="category"
               className="hidden  bg-black text-[#00dfc4] border-2 border-[#00dfc4] pl-2 ml-2"
               value={medicalType}
               ref={m}
@@ -194,7 +199,7 @@ const SigninPage = () => {
         </form>
       </div>{" "}
       <div className="notification">
-        <span>Message Sent!</span>
+        {success ? <span>Created</span> : <span>Someting went wrong!!!</span>}
       </div>
     </div>
   );

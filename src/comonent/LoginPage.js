@@ -9,11 +9,12 @@ const Contact = () => {
   const x = useRef();
   const login = async () => {
     try {
-      const res = await axios.post("http://192.168.174.43:9999/auth/LOGIN", {
+      const res = await axios.post("http://192.168.1.112:9999/auth/LOGIN", {
         email,
         password,
       });
       Cookies.set("dammn_token", res.data.token);
+      localStorage.setItem("userid", res.data.id);
     } catch (error) {
       console.log("====================================");
       console.log(error);
