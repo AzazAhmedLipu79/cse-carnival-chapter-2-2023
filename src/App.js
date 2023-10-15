@@ -9,6 +9,7 @@ import HomePage from "./comonent/HomePage";
 import { SinglePost } from "./comonent/SinglePost";
 // import Post from "./comonent/Post";
 import { DirectMessage } from "./comonent/DirectMessage";
+import Footer from "./comonent/Footer";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }

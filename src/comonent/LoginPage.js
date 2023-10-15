@@ -15,6 +15,7 @@ const Contact = () => {
       });
       Cookies.set("dammn_token", res.data.token);
       localStorage.setItem("userid", res.data.id);
+      window.location.href = "/";
     } catch (error) {
       console.log("====================================");
       console.log(error);

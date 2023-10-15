@@ -6,3 +6,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+.hero {
+  background-image: url("images/7xm.xyz551975.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position-y: center;
+  background-repeat: no-repeat;
+}

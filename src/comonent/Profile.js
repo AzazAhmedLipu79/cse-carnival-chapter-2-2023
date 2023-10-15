@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { check } from "../utilites/checkauth";
-import { Link, redirect } from "react-router-dom";
+import { Link, NavLink, redirect } from "react-router-dom";
+
 import axios from "axios";
+import Cookies from "js-cookie";
 const Profile = () => {
   const [loged, setloged] = useState(false);
   const [userdata, setuserdata] = useState();
@@ -96,7 +98,20 @@ const Profile = () => {
               </div>
               <div className=" font-bold text-xl  text-gray-200 ">
                 Role: {userdata?.role === 3 ? "expert" : "User"}
-              </div>
+              </div>{" "}
+              <br />
+              <NavLink
+                to={"/login"}
+                onClick={() => {
+                  Cookies.remove("dammn_token");
+                  window.location.reload();
+                  window.location.href = "/login";
+                }}
+              >
+                <span className="px-2 py-1 font-bold bg-red-500 rounded-sm m-auto">
+                  Logout
+                </span>
+              </NavLink>
             </div>
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
               <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">

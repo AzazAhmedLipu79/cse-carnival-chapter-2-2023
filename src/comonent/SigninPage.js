@@ -56,6 +56,7 @@ const SigninPage = () => {
       Cookies.set("dammn_token", res.data.token, { expires: 7 });
       localStorage.setItem("userid", res.data.id);
       setSuccess(res.data.success);
+      window.location.href = "/";
     } catch (err) {
       console.log(err);
     }
@@ -74,7 +75,7 @@ const SigninPage = () => {
       document.querySelector(".notification").classList.remove("sub");
     }, 5000);
   };
-  useEffect(() => {}, [success]);
+  useEffect(() => {}, [success, userType]);
 
   return (
     <div
@@ -149,30 +150,32 @@ const SigninPage = () => {
               <option value={3}>Expert</option>
             </select>
           </div>
-          <div
-            className="flex justify-start w-[300px] items-center p-3 bg-[#2a2c39] rounded-full"
-            onClick={() => {
-              m.current.classList.remove("hidden");
-            }}
-          >
-            <i className="fa-solid fa-person-half-dress text-[#00dfc4] p-1 pr-2 border-r-[1px] border-[#00dfc4] "></i>
-            <span className="pl-2 text-white font-thin  ">Category</span>
-
-            <select
-              name="category"
-              id="category"
-              className="hidden  bg-black text-[#00dfc4] border-2 border-[#00dfc4] pl-2 ml-2"
-              value={medicalType}
-              ref={m}
-              onChange={(e) => setmedicalType(e.target.value)}
+          {
+            <div
+              className=" flex justify-start w-[300px] items-center p-3 bg-[#2a2c39] rounded-full"
+              onClick={() => {
+                m.current.classList.remove("hidden");
+              }}
             >
-              {medicalSpecialties.map((value, i) => (
-                <option key={i} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-          </div>
+              <i className="fa-solid fa-person-half-dress text-[#00dfc4] p-1 pr-2 border-r-[1px] border-[#00dfc4] "></i>
+              <span className="pl-2 text-white font-thin  ">Category</span>
+
+              <select
+                name="category"
+                id="category"
+                className="hidden  bg-black text-[#00dfc4] border-2 border-[#00dfc4] pl-2 ml-2"
+                value={medicalType}
+                ref={m}
+                onChange={(e) => setmedicalType(e.target.value)}
+              >
+                {medicalSpecialties.map((value, i) => (
+                  <option key={i} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+          }
           <div className="inputbox">
             <input
               type="text"

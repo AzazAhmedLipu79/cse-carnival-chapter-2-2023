@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import bg from "../images/7xm.xyz551975.jpg";
 const HomePage = () => {
   const [posts, setposts] = useState([]);
   const [users, setusers] = useState([]);
@@ -72,6 +73,21 @@ const HomePage = () => {
 
   return (
     <div>
+      <div className="h-[60vh] bg-cover  hero">
+        <div className="w-full flex items-center justify-center  h-full ">
+          <a href="/direct_message">
+            {" "}
+            <button className=" bg-green-500 p-5 rounded-sm text-white font-bold m-2">
+              I need Help
+            </button>
+          </a>
+          <a href="/posts">
+            <button className=" bg-blue-500 p-5 rounded-sm text-white font-bold m-2">
+              I can Help
+            </button>
+          </a>
+        </div>
+      </div>
       <section className="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
@@ -139,7 +155,7 @@ const HomePage = () => {
                           datetime="2022-06-23"
                           title="June 23rd, 2022"
                         >
-                          Jun. 23, 2022
+                          Jun. 15, 2022
                         </time>
                       </p>
                     </div>
