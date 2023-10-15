@@ -9,10 +9,10 @@ const leaveAcomment = async (req, res) => {
             msg: "INVALID CREDENTIALS",
             });
         }
-        const comment = await comment.create({ user_id, post_id, content });
+        const comment_data = await comment.create({ user_id, post_id, content });
         res.status(200).json({
         success: true,
-        comment,
+        comment:comment_data,
         });
     } catch (err) {
         console.log(err);
@@ -22,22 +22,23 @@ const leaveAcomment = async (req, res) => {
         });
     }
     }
-
-const getAllcommentByPostId =async (req, res) => { 
-    try {
-        const comments = await comment.find({post_id: req.param.post_id});
-        res.status(200).json({
-        success: true,
-        comments,
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-        success: false,
-        msg: "Something went wrong",
-        });
-    }
-    }
+    const getAllcommentByPostId = async (req, res) => {
+        try {
+          const comments = await comment.find({ post_id: req.params.post_id });
+          console.log(comments);
+          res.status(200).json({
+            success: true,
+            comments,
+          });
+        } catch (err) {
+          console.log(err);
+          res.status(500).json({
+            success: false,
+            msg: "Something went wrong",
+          });
+        }
+      };
+      
 const deleteComment = async (req, res)=>{
 
     try {
